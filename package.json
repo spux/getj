@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "get json",
   "main": "index.js",
+  "module": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/spux/getj.git"
   },
-  "author": "Melvin Carvalho",
+  "author": "Melvin Carvalho <melvincarvalho@gmail.com> (https://melvincarvalho.com/#me)",
   "bugs": {
     "url": "https://github.com/spux/getj/issues"
   },
