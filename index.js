@@ -1,6 +1,6 @@
 export default function getj (uri) {
   return new Promise((resolve, reject) => {
-    fetch('https://spux.app/')
+    fetch(uri)
       .then(function (response) {
         // The API call was successful!
         return response.text()
