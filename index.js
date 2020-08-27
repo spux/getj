@@ -14,7 +14,7 @@ export default function getj (uri) {
         )
         var json = JSON.parse(script[0].text)
         var fragid = uri.split('#').pop()
-        var found = findById(fragid, json)
+        var found = findById('#' + fragid, json)
         if (fragid && found) {
           json = found
         }
