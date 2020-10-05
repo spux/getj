@@ -39,7 +39,10 @@ fetch(uri)
             values.forEach(i => {
               if (Array.isArray(i)) {
                 i.forEach(j => {
-                  if (j?.toString().match(match)) console.log(j)
+                  var values = Object.values(j)
+                  values.forEach(k => {
+                    if (k.toString().match(match)) console.log(k)
+                  })
                 })
               } else {
                 if (i?.toString().match(match)) console.log(i)
