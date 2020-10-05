@@ -7,6 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "getj": "bin/getj.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/spux/getj.git"
@@ -15,5 +18,13 @@
   "bugs": {
     "url": "https://github.com/spux/getj/issues"
   },
-  "homepage": "https://github.com/spux/getj#readme"
+  "homepage": "https://github.com/spux/getj#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "dom-parser": "^0.1.6",
+    "fetch": "^1.1.0",
+    "jsdom": "^16.4.0",
+    "node-fetch": "^2.6.1",
+    "query-selector": "^2.0.0"
+  }
 }
