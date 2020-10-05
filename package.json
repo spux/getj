@@ -24,6 +24,7 @@
     "dom-parser": "^0.1.6",
     "fetch": "^1.1.0",
     "jsdom": "^16.4.0",
+    "minimist": "^1.2.5",
     "node-fetch": "^2.6.1",
     "query-selector": "^2.0.0"
   }
