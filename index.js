@@ -1,38 +1,60 @@
-export default function getj (uri) {
-  return new Promise((resolve, reject) => {
-    fetch(uri)
-      .then(function (response) {
-        // The API call was successful!
-        return response.text()
-      })
-      .then(function (html) {
-        // This is the HTML from our response as a text string
-        var parser = new DOMParser()
-        var doc = parser.parseFromString(html, 'text/html')
-        var script = doc.querySelectorAll(
-          '[type="application/ld+json"], [type="application/json"]'
-        )
-        var json = JSON.parse(script[0].text)
-        var fragid = uri.split('#').pop()
-        var found = findById('#' + fragid, json)
-        if (fragid && found) {
-          json = found
-        }
-        resolve(json)
-      })
-      .catch(function (err) {
-        // There was an error
-        reject('Something went wrong.', err)
-      })
-  })
+export default async function getj (uri) {
+  try {
+    const response = await fetch(uri)
+    const html = await response.text()
+
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+    const script = doc.querySelector(
+      '[type="application/ld+json"], [type="application/json"]'
+    )
+
+    if (!script) {
+      throw new Error('Script tag not found.')
+    }
+
+    const jsonArray = JSON.parse(script.textContent)
+    const fragId = uri.split('#').pop()
+
+    const found = findNestedObjectById(jsonArray, fragId)
+
+    if (fragId && found) {
+      return found
+    } else {
+      return jsonArray
+    }
+  } catch (err) {
+    throw new Error(`Could not getj: ${err}`)
+  }
 }
 
-function findById (subject, arr) {
-  return arr.find(a => {
-    if (a.children && a.children.length > 0) {
-      return a['@id'] === subject ? true : findById(a.children, subject)
-    } else {
-      return a['@id'] === subject
+export function findNestedObjectById (objects, id) {
+  if (objects === null || typeof objects !== 'object') {
+    return null
+  }
+
+  if (objects.id === id || objects['@id'] === id) {
+    return objects
+  }
+
+  if (Array.isArray(objects)) {
+    for (const obj of objects) {
+      const result = findNestedObjectById(obj, id)
+      if (result) {
+        return result
+      }
     }
-  })
+  } else {
+    for (const key in objects) {
+      const child = objects[key]
+      if (typeof child === 'object' || Array.isArray(child)) {
+        const result = findNestedObjectById(child, id)
+        if (result) {
+          return result
+        }
+      }
+    }
+  }
+
+  return null
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get JSON-LD Demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f4f8;
+        color: #34495e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #eaf1f7;
+        padding: 15px;
+        border-radius: 5px;
+        overflow: auto;
+        max-height: calc(100vh - 50px);
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "WebPage",
+        "url": "https://example.com",
+        "name": "Example Web Page"
+      }
+    </script>
+  </head>
+  <body>
+    <pre id="output"></pre>
+
+    <script type="module">
+      import getj from './index.js'
+
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get(name)
+      }
+
+      const uriParam = getQueryParam('uri')
+      const targetUri = uriParam ? uriParam : location.href
+
+      getj(targetUri)
+        .then(json => {
+          document.getElementById('output').textContent = JSON.stringify(
+            json,
+            null,
+            2
+          )
+        })
+        .catch(error => {
+          console.error('Error:', error)
+        })
+    </script>
+  </body>
+</html>
